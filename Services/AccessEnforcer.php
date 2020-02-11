@@ -1,13 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace KskOrdernumberInquiry\Services;
 
 use Closure;
 use Exception;
 
-/**
- * Class AccessEnforcer
- */
 class AccessEnforcer
 {
     /**
@@ -15,9 +12,9 @@ class AccessEnforcer
      * instance. Cannot read private attributes
      * of any parent classes.
      *
-     * @param $instance
-     * @param $name
-     * @return mixed
+     * @param mixed $instance
+     * @param mixed $name
+     *
      * @throws Exception
      */
     public function forceRead($instance, $name)
@@ -29,6 +26,7 @@ class AccessEnforcer
         $spoof = Closure::bind(function ($instance) use ($name) {
             return $instance->{$name};
         }, null, $instance);
+
         return $spoof($instance);
     }
 
@@ -38,9 +36,10 @@ class AccessEnforcer
      * Cannot override private attributes of
      * any parent classes.
      *
-     * @param $instance
-     * @param $name
-     * @param $value
+     * @param mixed $instance
+     * @param mixed $name
+     * @param mixed $value
+     *
      * @throws Exception
      */
     public function forceWrite($instance, $name, $value)
@@ -60,10 +59,10 @@ class AccessEnforcer
      * instance with the given parameters
      * and returns its return value.
      *
-     * @param $instance
-     * @param $name
+     * @param mixed $instance
+     * @param mixed $name
      * @param array ...$arguments
-     * @return mixed
+     *
      * @throws Exception
      */
     public function forceCallMethod($instance, $name, ...$arguments)
@@ -75,6 +74,7 @@ class AccessEnforcer
         $spoof = Closure::bind(function ($instance) use ($name, $arguments) {
             return $instance->$name(...$arguments);
         }, null, $instance);
+
         return $spoof($instance);
     }
 }

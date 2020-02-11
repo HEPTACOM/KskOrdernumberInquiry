@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace KskOrdernumberInquiry;
 
@@ -10,10 +10,6 @@ use Shopware\Components\Plugin;
 use Shopware_Components_Snippet_Manager;
 use Shopware_Controllers_Frontend_Forms;
 
-/**
- * Class KskOrdernumberInquiry
- * @package KskOrdernumberInquiry
- */
 class KskOrdernumberInquiry extends Plugin
 {
     const FORM_NAME_ORDERNUMBER = 'ksk_ordernumber_inquiry_form_ordernumber';
@@ -29,9 +25,6 @@ class KskOrdernumberInquiry extends Plugin
         ];
     }
 
-    /**
-     * @param Enlight_Event_EventArgs $args
-     */
     public function addOrdernumberField(Enlight_Event_EventArgs $args)
     {
         /** @var Shopware_Controllers_Frontend_Forms $controller */
@@ -41,7 +34,6 @@ class KskOrdernumberInquiry extends Plugin
         $ae = $this->container->get('ksk_ordernumber_inquiry.services.access_enforcer');
 
         $namespace = $this->getSnippetNamespace();
-
 
         if ($controller->Request()->getActionName() !== 'index'
             || ($ordernumber = $controller->Request()->getParam('sOrdernumber')) === null
@@ -66,9 +58,6 @@ class KskOrdernumberInquiry extends Plugin
         $ae->forceWrite($controller, '_elements', $_elements);
     }
 
-    /**
-     * @param Enlight_Event_EventArgs $args
-     */
     public function alterMailTemplate(Enlight_Event_EventArgs $args)
     {
         /** @var Shopware_Controllers_Frontend_Forms $controller */
@@ -96,6 +85,7 @@ class KskOrdernumberInquiry extends Plugin
     {
         /** @var Shopware_Components_Snippet_Manager $snippetManager */
         $snippetManager = $this->container->get('snippets');
+
         return $snippetManager->getNamespace('frontend/forms/elements');
     }
 }
